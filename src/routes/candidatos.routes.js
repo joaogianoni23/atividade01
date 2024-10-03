@@ -57,9 +57,9 @@ candidatosRoutes.post("/", (req, res) => {
     });
 });
 
-candidatosRoutes.delete("/:id", (req, res)=> {
+candidatosRoutes.get("/:id", (req, res)=> {
     const { id } = req.params;
-    const candidatos = candidatos.find((person) => person.id == id);
+    const candidatos = candidatos.find((politico) => politico.id == id);
 
 
 
