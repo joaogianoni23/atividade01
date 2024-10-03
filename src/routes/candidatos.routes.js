@@ -4,7 +4,7 @@ const candidatosRoutes = Router()
 
 let candidatos = [
     {
-        id: Math.random() * 1000000,
+        id: Math.floor(Math.random() * 1000000),
         nome: "Capitã Lucimara",
         partido: "PSD",
         idade: "39",
@@ -26,9 +26,23 @@ candidatosRoutes.get("/", (req, res) => {
 
 candidatosRoutes.post("/", (req, res) => {
     const { nome, partido, idade, concorrente, propostas } = req.body;
+
+    if (!nome || !partido) {
+        return res.status(400).send({
+            message: "O nome ou o partido não foi preenchido!"
+        });
+    }
+
+    //Validação de idade
+    if (idade < 18) {
+        return res.status(400).send({
+            message: "Idade insuficiente para a candidatura"
+        });
+    }
+
     
     const novoCandidato = {
-        id: candidatos.length + 1,
+        id: Math.floor(Math.random() * 1000000),
         nome: nome,
         partido: partido,
         idade: idade,
@@ -37,7 +51,10 @@ candidatosRoutes.post("/", (req, res) => {
     };
 
     candidatos.push(novoCandidato)
-    return res.status(201).send(novoCandidato);
+    return res.status(201).send({
+        message: "Candidato cadastrado com sucesso!",
+        novoCandidato,
+    });
 });
 
 candidatosRoutes.delete("/:id", (req, res)=> {
